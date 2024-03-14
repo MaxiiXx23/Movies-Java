@@ -1,8 +1,6 @@
 package br.com.maxdev.screenmatch;
 
-import br.com.maxdev.screenmatch.models.SerieModel;
-import br.com.maxdev.screenmatch.service.ConsumeAPI;
-import br.com.maxdev.screenmatch.service.ConvertData;
+import br.com.maxdev.screenmatch.views.Menu;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,12 +14,10 @@ public class ScreenmatchApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		ConsumeAPI consumeAPI = new ConsumeAPI();
-		ConvertData conversor = new ConvertData();
-		String json = consumeAPI.getData("https://www.omdbapi.com/?t=dune&apikey=775de322");
 
-		SerieModel serie = conversor.getData(json, SerieModel.class);
+		Menu menu = new Menu();
 
-		System.out.println(serie);
+		menu.showMenu();
+
 	}
 }
