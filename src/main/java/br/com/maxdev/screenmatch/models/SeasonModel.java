@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record SeasonModel(@JsonAlias("Title") String title,
-                          @JsonAlias("Season") String season,
+                          @JsonAlias("Season") Integer season,
                           @JsonAlias("totalSeasons") String totalSeasons,
                           @JsonAlias("Episodes") ArrayList<EpisodeFromSeason> episodes) {
 }

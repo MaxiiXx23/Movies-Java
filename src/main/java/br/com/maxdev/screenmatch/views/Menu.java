@@ -1,5 +1,6 @@
 package br.com.maxdev.screenmatch.views;
 
+import br.com.maxdev.screenmatch.models.Episode;
 import br.com.maxdev.screenmatch.models.EpisodeFromSeason;
 import br.com.maxdev.screenmatch.models.SeasonModel;
 import br.com.maxdev.screenmatch.models.SerieModel;
@@ -7,7 +8,11 @@ import br.com.maxdev.screenmatch.service.ConsumeAPI;
 import br.com.maxdev.screenmatch.service.ConvertData;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Menu {
     ConsumeAPI consumeAPI = new ConsumeAPI();
@@ -37,11 +42,30 @@ public class Menu {
 			listSeasons.add(season);
 		}
 
-        // iteração com LAMBDA -> RECOMENDÁVEL
+        List<Episode> episodes = listSeasons.stream()
+                .flatMap(s -> s.episodes().stream()
+                        .map(e -> new Episode(e.title(), e.rating(), e.episode(), s.season(), e.dataReleased())))
+                .collect(Collectors.toList());
 
-        listSeasons.forEach(s -> s.episodes().forEach(e -> System.out.println(e.title())));
+        episodes.forEach(System.out::println);
 
         /*
+           List<EpisodeFromSeason> listEpisodes = listSeasons.stream()
+                .flatMap(s -> s.episodes().stream())
+                .collect(Collectors.toList());
+           Stream<EpisodeFromSeason> listSorted = listEpisodes.stream()
+            .sorted(Comparator.comparing(EpisodeFromSeason::rating))
+            .limit(5);
+
+            listSorted.forEach(e -> System.out.println(e.title()));
+        */
+
+        /*
+
+             // iteração com LAMBDA -> RECOMENDÁVEL
+
+            // listSeasons.forEach(s -> s.episodes().forEach(e -> System.out.println(e.title())));
+
             // iteração de forma "manual" (Não é recomendada)
             for(int i = 0; i < serie.totalSeasons(); i++){
                 ArrayList<EpisodeFromSeason> epsSeason = this.listSeasons.get(i).episodes();
