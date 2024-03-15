@@ -36,12 +36,28 @@ public class Episode {
         this.episode = episode;
     }
 
-    public void setSeason(Integer season) {
-        this.season = season;
-    }
-
     @Override
     public String toString() {
         return "Title= %s, rating= %s, episode= %d, dataReleased= %s".formatted(this.title, this.rating, this.episode, this.dataReleased);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public Integer getEpisode() {
+        return episode;
+    }
+
+    public Integer getSeason() {
+        return season;
+    }
+
+    public LocalDate getDataReleased() {
+        return dataReleased;
     }
 }

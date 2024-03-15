@@ -7,6 +7,7 @@ import br.com.maxdev.screenmatch.models.SerieModel;
 import br.com.maxdev.screenmatch.service.ConsumeAPI;
 import br.com.maxdev.screenmatch.service.ConvertData;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -47,7 +48,19 @@ public class Menu {
                         .map(e -> new Episode(e.title(), e.rating(), e.episode(), s.season(), e.dataReleased())))
                 .collect(Collectors.toList());
 
-        episodes.forEach(System.out::println);
+        // episodes.forEach(System.out::println);
+
+        System.out.println("A partir de qual data deseja buscar os episódios?");
+        int inputYearToSearch = this.inputSearch.nextInt();
+        this.inputSearch.nextLine();
+
+        LocalDate yearFormmated = LocalDate.of(inputYearToSearch, 1, 1);
+
+        episodes.stream()
+                .filter(e -> e.getDataReleased() != null && e.getDataReleased().isAfter(yearFormmated))
+                .forEach(e -> {
+                    System.out.printf("Título: %s Episódio: %d Data de lançamento: %s%n", e.getTitle(), e.getEpisode(), e.getDataReleased());
+                });
 
         /*
            List<EpisodeFromSeason> listEpisodes = listSeasons.stream()
