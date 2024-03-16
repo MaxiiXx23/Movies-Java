@@ -8,10 +8,7 @@ import br.com.maxdev.screenmatch.service.ConsumeAPI;
 import br.com.maxdev.screenmatch.service.ConvertData;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,7 +19,7 @@ public class Menu {
     private final String BASE_URL = "https://www.omdbapi.com/?";
     private final String PARAM_TITLE = "t=";
     private final String PARAM_SEASON = "&season=";
-    private final String API_KEY = "&apikey=775de322";
+    private final String API_KEY = "&apikey=ADICIONE SEU CODIGO AQUI";
 
     SerieModel serie;
     ArrayList<SeasonModel> listSeasons = new ArrayList<>();
@@ -50,17 +47,55 @@ public class Menu {
 
         // episodes.forEach(System.out::println);
 
-        System.out.println("A partir de qual data deseja buscar os episódios?");
-        int inputYearToSearch = this.inputSearch.nextInt();
-        this.inputSearch.nextLine();
+        // Média de avaliação por temporda
+        Map<Integer, Double> averagePerSeason = episodes.stream()
+                .filter(e -> e.getRating() > 0.0)
+                .collect(Collectors.groupingBy(Episode::getSeason,
+                        Collectors.averagingDouble(Episode::getRating)));
+
+        System.out.println(averagePerSeason);
+
+        // Estátisticas
+
+        DoubleSummaryStatistics est = episodes.stream()
+                .filter(e -> e.getRating() > 0.0)
+                .collect(Collectors.summarizingDouble(Episode::getRating));
+
+        System.out.println(est);
+
+        /*
+
+            // buscar por nome do episódio usando findFirst()
+
+            System.out.println("Pesquise pelo nome do episódio:");
+            var searchTitle = inputSearch.nextLine();
+
+            Optional<Episode> episodeFound = episodes.stream()
+                    .filter(e -> e.getTitle().toLowerCase().contains(searchTitle.toLowerCase()))
+                    .findFirst();
+
+            if(episodeFound.isPresent()){
+                System.out.println("Episódio encontrado!");
+                System.out.printf("Título: %s", episodeFound.get().getTitle());
+            } else {
+                System.out.println("Infelizmente não encontramos o episódio.");
+            }
+
+
+         */
+        /*
+
+                System.out.println("A partir de qual data deseja buscar os episódios?");
+                int inputYearToSearch = this.inputSearch.nextInt();
+                this.inputSearch.nextLine();
 
         LocalDate yearFormmated = LocalDate.of(inputYearToSearch, 1, 1);
-
-        episodes.stream()
+            episodes.stream()
                 .filter(e -> e.getDataReleased() != null && e.getDataReleased().isAfter(yearFormmated))
                 .forEach(e -> {
                     System.out.printf("Título: %s Episódio: %d Data de lançamento: %s%n", e.getTitle(), e.getEpisode(), e.getDataReleased());
                 });
+         */
 
         /*
            List<EpisodeFromSeason> listEpisodes = listSeasons.stream()
